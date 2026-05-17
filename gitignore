@@ -1,0 +1,13 @@
+# Arquivos sensíveis e do Firebase CLI (não precisa no GitHub)
+.firebaserc
+firebase-debug.log
+.firebase/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp

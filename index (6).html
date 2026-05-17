@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#b8323c">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>Tabi 旅 · Japão 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600;700&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ============ TELA DE LOGIN ============ -->
+  <div id="login-screen" class="login-screen">
+    <div class="login-card">
+      <div class="login-stamp">旅</div>
+      <h1 class="login-title">Tabi no Tomodachi</h1>
+      <p class="login-subtitle">Companheiro de Viagem</p>
+      <p class="login-dates">JAPÃO · 23.05 — 04.06.2026</p>
+
+      <form id="login-form" autocomplete="off">
+        <input
+          type="password"
+          id="pwd-input"
+          class="pwd-input"
+          placeholder="••••"
+          inputmode="numeric"
+          maxlength="4"
+          autocomplete="off"
+          required
+        >
+        <button type="submit" class="pwd-btn">ENTRAR</button>
+        <p id="pwd-error" class="pwd-error"></p>
+      </form>
+
+      <p class="login-hint">Adalberto &amp; Vinicius</p>
+    </div>
+  </div>
+
+  <!-- ============ APP PRINCIPAL ============ -->
+  <div id="app" class="app hidden">
+
+    <!-- HEADER -->
+    <header class="app-header">
+      <div class="header-inner">
+        <div class="header-brand">
+          <span class="brand-kanji">旅</span>
+          <div>
+            <div class="brand-title">Japão 2026</div>
+            <div class="brand-sub">Adalberto &amp; Vinicius</div>
+          </div>
+        </div>
+        <div class="header-actions">
+          <button id="btn-fin" class="icon-btn" title="Painel financeiro" aria-label="Painel financeiro">¥</button>
+          <button id="btn-logout" class="icon-btn" title="Sair" aria-label="Sair">↩</button>
+        </div>
+      </div>
+
+      <nav class="app-tabs">
+        <button class="tab-btn active" data-tab="roteiro">Roteiro</button>
+        <button class="tab-btn" data-tab="hospedagem">Hotéis</button>
+        <button class="tab-btn" data-tab="voos">Voos</button>
+        <button class="tab-btn" data-tab="contatos">Emergência</button>
+      </nav>
+    </header>
+
+    <!-- CONNECTION STATUS -->
+    <div id="conn-status" class="conn-status"></div>
+
+    <!-- MAIN CONTENT -->
+    <main class="app-main">
+
+      <!-- ABA ROTEIRO -->
+      <section id="tab-roteiro" class="tab-panel active">
+        <div class="day-nav-wrap">
+          <div id="day-nav" class="day-nav"></div>
+        </div>
+        <div id="roteiro-content" class="roteiro-content">
+          <div class="loading">Carregando roteiro<span class="dots">...</span></div>
+        </div>
+      </section>
+
+      <!-- ABA HOSPEDAGEM -->
+      <section id="tab-hospedagem" class="tab-panel">
+        <div id="hospedagem-content" class="hospedagem-content"></div>
+      </section>
+
+      <!-- ABA VOOS -->
+      <section id="tab-voos" class="tab-panel">
+        <div id="voos-content" class="voos-content"></div>
+      </section>
+
+      <!-- ABA CONTATOS -->
+      <section id="tab-contatos" class="tab-panel">
+        <div id="contatos-content" class="contatos-content"></div>
+      </section>
+
+    </main>
+
+    <!-- FAB ADICIONAR -->
+    <button id="fab-add" class="fab-add" title="Adicionar compromisso" aria-label="Adicionar compromisso">
+      <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+        <line x1="12" y1="5" x2="12" y2="19"/>
+        <line x1="5" y1="12" x2="19" y2="12"/>
+      </svg>
+    </button>
+
+  </div>
+
+  <!-- ============ MODAL EVENTO ============ -->
+  <div id="modal-evento" class="modal hidden">
+    <div class="modal-backdrop" data-close></div>
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="modal-title">Novo compromisso</h2>
+        <button class="modal-close" data-close aria-label="Fechar">×</button>
+      </div>
+      <form id="form-evento" class="modal-body">
+        <input type="hidden" id="evt-id">
+
+        <label class="field">
+          <span class="field-label">Título <span class="req">*</span></span>
+          <input type="text" id="evt-titulo" required maxlength="100" placeholder="Ex: Almoço no Pokémon Cafe">
+        </label>
+
+        <div class="field-row">
+          <label class="field">
+            <span class="field-label">Data <span class="req">*</span></span>
+            <input type="date" id="evt-data" required min="2026-05-23" max="2026-06-05">
+          </label>
+          <label class="field">
+            <span class="field-label">Horário</span>
+            <input type="time" id="evt-horario">
+          </label>
+        </div>
+
+        <label class="field">
+          <span class="field-label">Categoria</span>
+          <select id="evt-categoria">
+            <option value="atracao">🎌 Atração</option>
+            <option value="parque">🎢 Parque temático</option>
+            <option value="comida">🍱 Refeição</option>
+            <option value="transporte">🚄 Transporte</option>
+            <option value="voo">✈️ Voo</option>
+            <option value="hotel">🏨 Hotel</option>
+            <option value="compras">🛍️ Compras</option>
+            <option value="cultural">⛩️ Cultural/Histórico</option>
+            <option value="show">🎆 Show/Evento</option>
+            <option value="outros">📌 Outros</option>
+          </select>
+        </label>
+
+        <label class="field">
+          <span class="field-label">Endereço / Local</span>
+          <input type="text" id="evt-endereco" maxlength="200" placeholder="Ex: Shinjuku, Tokyo">
+        </label>
+
+        <label class="field">
+          <span class="field-label">Notas / Estratégia</span>
+          <textarea id="evt-notas" rows="3" maxlength="500" placeholder="Ex: Chegar 30min antes, fila grande..."></textarea>
+        </label>
+
+        <div class="modal-actions">
+          <button type="button" id="btn-excluir" class="btn-danger hidden">Excluir</button>
+          <button type="button" class="btn-secondary" data-close>Cancelar</button>
+          <button type="submit" class="btn-primary">Salvar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ============ MODAL FINANCEIRO ============ -->
+  <div id="modal-fin" class="modal hidden">
+    <div class="modal-backdrop" data-close-fin></div>
+    <div class="modal-content modal-fin-content">
+
+      <!-- Login do financeiro -->
+      <div id="fin-login" class="fin-login">
+        <div class="modal-header">
+          <h2>💰 Painel Financeiro</h2>
+          <button class="modal-close" data-close-fin aria-label="Fechar">×</button>
+        </div>
+        <div class="modal-body">
+          <p class="fin-msg">Acesso restrito ao titular da viagem.</p>
+          <form id="fin-login-form" autocomplete="off">
+            <input
+              type="password"
+              id="fin-pwd"
+              class="pwd-input"
+              placeholder="••••"
+              inputmode="numeric"
+              maxlength="4"
+              autocomplete="off"
+              required
+            >
+            <button type="submit" class="btn-primary fullwidth">Acessar</button>
+            <p id="fin-error" class="pwd-error"></p>
+          </form>
+        </div>
+      </div>
+
+      <!-- Painel financeiro -->
+      <div id="fin-panel" class="fin-panel hidden">
+        <div class="modal-header">
+          <h2>💰 Financeiro</h2>
+          <button class="modal-close" data-close-fin aria-label="Fechar">×</button>
+        </div>
+        <div class="modal-body">
+          <div class="fin-summary">
+            <div class="fin-summary-item">
+              <div class="fin-summary-label">Total</div>
+              <div class="fin-summary-value" id="fin-total">—</div>
+            </div>
+            <div class="fin-summary-item">
+              <div class="fin-summary-label">Pago</div>
+              <div class="fin-summary-value paid" id="fin-pago">—</div>
+            </div>
+            <div class="fin-summary-item">
+              <div class="fin-summary-label">A pagar</div>
+              <div class="fin-summary-value pending" id="fin-apagar">—</div>
+            </div>
+          </div>
+          <div id="fin-list" class="fin-list"></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div id="toast" class="toast"></div>
+
+  <!-- Firebase SDKs (CDN, modular v10) -->
+  <script type="module" src="app.js"></script>
+
+</body>
+</html>
